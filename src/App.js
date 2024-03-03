@@ -310,7 +310,7 @@ const EditForm = (props) => {
     <Paper
       style={{
         position: "absolute",
-        width: 600,
+        width: 650,
         top: 58,
         bottom: 0,
         right: 0,
@@ -425,9 +425,14 @@ const GridLines = ({ props }) => {
         y={center[1]}
         width={roomGrid[0]}
         height={roomGrid[1]}
-        stroke="black"
-        strokeWidth="1"
-        fill="white"
+        stroke="#DDD"
+        strokeWidth="2"
+        fill="#FFF"
+      />,
+      <polygon
+        points="100,10 40,180 190,70 10,70 160,180"
+        fill="#EEE"
+        transform={`translate(${center[0] + 20},${center[1]}) scale(0.3)`}
       />,
     ]);
 };
@@ -657,7 +662,7 @@ function AreaEditor({ style }) {
         overflow: "hidden",
       }}
     >
-      <PrismaZoom allowPan={!isSomethingDragging}>
+      <PrismaZoom allowPan={!isSomethingDragging} minZoom={0.5}>
         <svg
           width={imageDimensions[0]}
           height={imageDimensions[1]}
@@ -1441,11 +1446,9 @@ const App = () => {
 
   useEffect(() => {
     if (areaVnum) {
-      const headers = new Headers();
-      headers.set("Authorization", "Basic " + btoa("palrich" + ":" + ""));
       fetch(`http://localhost:4001/builderweb/api/areas/${areaVnum}`, {
         method: "GET",
-        headers: headers,
+        headers: getAuthHeaders(),
       })
         .then(function (response) {
           return response.json();
